@@ -2,38 +2,38 @@
   hosts: mysql
   become: yes
   vars:
-    mysql_root_password:  "ExpenseApp@1"
+    mysql_root_password: "ExpenseApp@1"
   tasks:
-    - name: Disable default mysql module
-      ansible.builtin.command: dnf update -y
-
-    - name: Install MySQL Community Repository
+    - name: Update system packages
       ansible.builtin.dnf:
-        name: https://dev.mysql.com
+        name: "*"
+        state: latest
+
+    - name: Install MySQL Community Repository (EL9 for AL2023)
+      ansible.builtin.dnf:
+        # Use the full direct URL to avoid the local file permission error
+        name: "https://dev.mysql.com"
         state: present
         disable_gpg_check: yes
-
-    - name: Install MySQL repo
-      ansible.builtin.dnf:
-        name: /tmp/mysql80-community-release-el7.rpm
-        state: present
 
     - name: Install MySQL server
       ansible.builtin.dnf:
         name: mysql-community-server
         state: present
     
-    - name: start the service
+    - name: Start and enable mysqld service
       ansible.builtin.service:
         name: mysqld
         state: started
         enabled: yes
 
-    - name: set mysql password
+    - name: Set mysql password
       community.mysql.mysql_user:
         name: root
         password: "{{ mysql_root_password }}"
+        login_unix_socket: /var/lib/mysql/mysql.sock
         check_implicit_admin: true
         state: present
       no_log: true
+
 
