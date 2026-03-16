@@ -4,9 +4,14 @@
   vars:
     mysql_root_password:  "ExpenseApp@1"
   tasks:
-    - name: install mysql
-      ansible.builtin.package:
-        name: mysql-server
+    - name: Install MySQL repo
+      ansible.builtin.dnf:
+        name: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+        state: present
+        
+    - name: Install MySQL server
+      ansible.builtin.dnf:
+        name: mysql-community-server
         state: present
     
     - name: start the service
