@@ -4,11 +4,11 @@
   vars:
     mysql_root_password:  "ExpenseApp@1"
   tasks:
-    - name: Install python mysql dependency
-      ansible.builtin.dnf:
-        name: python3-PyMySQL
-        state: present
-        
+    # - name: Install python mysql dependency
+    #   ansible.builtin.dnf:
+    #     name: python3-PyMySQL
+    #     state: present
+
     - name: Disable default mysql module
       ansible.builtin.command: dnf module disable mysql -y
 
