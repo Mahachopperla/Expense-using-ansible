@@ -6,9 +6,9 @@
   tasks:
     - name: Install MySQL repo
       ansible.builtin.dnf:
-        name: https://dev.mysql.com/get/mysql80-community-release-el9-1.noarch.rpm
+        name: https://dev.mysql.com/get/mysql80-community-release-el7.rpm
         state: present
-        
+
     - name: Install MySQL server
       ansible.builtin.dnf:
         name: mysql-community-server
