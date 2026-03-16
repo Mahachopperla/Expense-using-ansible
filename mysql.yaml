@@ -4,18 +4,14 @@
   vars:
     mysql_root_password:  "ExpenseApp@1"
   tasks:
-    # - name: Install python mysql dependency
-    #   ansible.builtin.dnf:
-    #     name: python3-PyMySQL
-    #     state: present
+    - name: Disable default mysql module
+      ansible.builtin.command: dnf update -y
 
-    # - name: Disable default mysql module
-    #   ansible.builtin.command: dnf module disable mysql -y
-
-    - name: Download MySQL repo rpm
-      ansible.builtin.get_url:
-        url: https://dev.mysql.com/get/mysql80-community-release-el7.rpm
-        dest: /tmp/mysql80-community-release-el7.rpm
+    - name: Install MySQL Community Repository
+      ansible.builtin.dnf:
+        name: https://dev.mysql.com
+        state: present
+        disable_gpg_check: yes
 
     - name: Install MySQL repo
       ansible.builtin.dnf:
