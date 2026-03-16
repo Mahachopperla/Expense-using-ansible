@@ -9,8 +9,8 @@
     #     name: python3-PyMySQL
     #     state: present
 
-    - name: Disable default mysql module
-      ansible.builtin.command: dnf module disable mysql -y
+    # - name: Disable default mysql module
+    #   ansible.builtin.command: dnf module disable mysql -y
 
     - name: Install MySQL repo
       ansible.builtin.dnf:
