@@ -4,21 +4,21 @@
   vars:
     mysql_root_password: "ExpenseApp@1"
   tasks:
-    - name: Update system packages
-      ansible.builtin.dnf:
-        name: "*"
-        state: latest
+    # - name: Update system packages
+    #   ansible.builtin.dnf:
+    #     name: "*"
+    #     state: latest
 
-    - name: Install MySQL Community Repository (EL9 for AL2023)
-      ansible.builtin.dnf:
-        # Use the full direct URL to avoid the local file permission error
-        name: "https://dev.mysql.com"
-        state: present
-        disable_gpg_check: yes
+    # - name: Install MySQL Community Repository (EL9 for AL2023)
+    #   ansible.builtin.dnf:
+    #     # Use the full direct URL to avoid the local file permission error
+    #     name: "https://dev.mysql.com"
+    #     state: present
+    #     disable_gpg_check: yes
 
     - name: Install MySQL server
-      ansible.builtin.dnf:
-        name: mysql-community-server
+      ansible.builtin.package:
+        name: mysql-server
         state: present
     
     - name: Start and enable mysqld service
@@ -31,8 +31,8 @@
       community.mysql.mysql_user:
         name: root
         password: "{{ mysql_root_password }}"
-        login_unix_socket: /var/lib/mysql/mysql.sock
-        check_implicit_admin: true
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        host: localhost
         state: present
       no_log: true
 
